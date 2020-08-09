@@ -76,6 +76,20 @@ Change the owner of `localhost.key` to `www-data`
 sudo chown www-data ./ssl/private/localhost.key
 ```
 
+### Trust the local CA
+
+#### Firefox
+
+Import the certificate by going to `about:preferences#privacy` > `View Certificates` > `Authorities` > `Import...` > `RootCA.pem` > Modify trust settings and confirm.
+
+Sources: <https://gist.github.com/cecilemuller/9492b848eb8fe46d462abeb26656c4f8>
+
+#### Chrome
+
+Import the certificate by going to `chrome://settings/certificates` > `Authorities` > `Import` > Modify trust settings and confirm.
+
+Restart Chrome Browser to get green lock.
+
 ## Usage
 
 Start your dev server on `localhost:3000`, then spin up the NGINX server with docker-compose.
