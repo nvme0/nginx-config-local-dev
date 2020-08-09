@@ -1,4 +1,4 @@
-# NGINX Config for Subdomains in Local Development
+# NGINX Config for Subdomains in Local Development (SSL Version)
 
 A simple NGINX config for setting up sub domains in local development.
 
@@ -40,6 +40,26 @@ By default the NGINX server will be accessable on port `4000` of your local mach
 ### Add subdomain to /etc/hosts
 
 Add `127.0.0.1 dev.localhost` to `/etc/hosts`. Change `dev` to your subdomain.
+
+### Setting Up SSL
+
+Create a self-signed key & certificate pair with OpenSSL:
+
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/private/nginx-selfsigned.key -out ./ssl/certs/nginx-selfsigned.crt
+```
+
+Create a strong Diffie-Hellman group:
+
+```bash
+sudo openssl dhparam -out ./ssl/certs/dhparam.pem 2048
+```
+
+Change the owner of `nginx-selfsigned.key` to `www-data`
+
+```bash
+sudo chown www-data nginx-selfsigned.key
+```
 
 ## Usage
 
