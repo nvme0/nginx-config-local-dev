@@ -6,6 +6,8 @@ The target environment is linux operating systems. If you are on Windows or Mac 
 
 By default `nginx.conf` is set to route `dev.localhost:4000` to `localhost:3000`.
 
+**For SSL version, switch to `with-ssl` branch**
+
 ## Prerequisites
 
 You need to have docker & docker-compose installed on your machine.
