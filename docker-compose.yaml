@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./logs/error.log:/var/log/nginx/error.log
+      - ./logs/access.log:/var/log/nginx/access.log
+    restart: always
+    ports:
+      - 4000:80
+    extra_hosts:
+      - "host.docker.internal:172.18.0.1"
+
+networks:
+  default:
+    external:
+      name: server_sites_default
