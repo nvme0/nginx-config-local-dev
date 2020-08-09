@@ -1,3 +1,10 @@
 logs*
+
 ssl*
 !ssl-params.conf
+
+*.crt
+*key
+*.pem
+*.srl
+*.csr

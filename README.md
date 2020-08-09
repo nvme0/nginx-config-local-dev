@@ -46,19 +46,34 @@ Add `127.0.0.1 dev.localhost` to `/etc/hosts`. Change `dev` to your subdomain.
 Create a self-signed key & certificate pair with OpenSSL:
 
 ```bash
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/private/nginx-selfsigned.key -out ./ssl/certs/nginx-selfsigned.crt
+openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Example-Root-CA"
 ```
 
-Create a strong Diffie-Hellman group:
-
 ```bash
-sudo openssl dhparam -out ./ssl/certs/dhparam.pem 2048
+openssl x509 -outform pem -in RootCA.pem -out RootCA.crt
 ```
 
-Change the owner of `nginx-selfsigned.key` to `www-data`
+(optional) Modify alt_names to domains.ext
 
 ```bash
-sudo chown www-data nginx-selfsigned.key
+[alt_names]
+DNS.1 = localhost
+DNS.2 = dev.localhost
+DNS.3 = ...
+```
+
+```bash
+openssl req -new -nodes -newkey rsa:2048 -keyout ./ssl/private/localhost.key -out localhost.csr -subj "/C=US/ST=YourState/L=YourCity/O=Example-Certificates/CN=localhost.local"
+```
+
+```bash
+openssl x509 -req -sha256 -days 1024 -in localhost.csr -CA RootCA.pem -CAkey RootCA.key -CAcreateserial -extfile domains.ext -out ./ssl/certs/localhost.crt
+```
+
+Change the owner of `localhost.key` to `www-data`
+
+```bash
+sudo chown www-data ./ssl/private/localhost.key
 ```
 
 ## Usage
